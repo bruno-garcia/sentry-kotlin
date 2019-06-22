@@ -1,40 +1,15 @@
-package main.kotlin.io.sentry
+package io.sentry
 
-import org.junit.Assert.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 
-@RunWith(Arquillian::class)
-class SentryEventTest {
-
-    @org.junit.Before
-    fun setUp() {
-    }
-
-    @org.junit.After
-    fun tearDown() {
-    }
-
-    @org.junit.Test
-    fun getName() {
-    }
-
-    @org.junit.Test
-    fun setName() {
-    }
-
-    @org.junit.Test
-    fun getAge() {
-    }
-
-    @org.junit.Test
-    fun setAge() {
-    }
-
-    companion object {
-        @Deployment
-        fun createDeployment(): JavaArchive {
-            return ShrinkWrap.create(JavaArchive::class.java)
-                .addClass(io.sentry.SentryEvent::class.java)
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml")
-        }
+class SentryClientTest {
+    @Test
+    fun divisionByZeroError() {
+        assertEquals("/ by zero",
+            assertThrows<ArithmeticException> {
+                1 / 0
+            }.message)
     }
 }
