@@ -7,6 +7,8 @@ open class SentryEvent {
     internal val eventUuid: UUID
     internal val eventInstant: Instant
 
+    var message: String? = null
+
     val eventId: String
         get() = eventUuid.toString().replace("-", "")
     val timestamp: String
