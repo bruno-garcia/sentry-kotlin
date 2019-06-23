@@ -10,8 +10,8 @@ application {
 }
 
 dependencies {
-    compile(project(":sentry"))
-    compile(kotlin("stdlib"))
+    implementation(project(":sentry"))
+    implementation(kotlin("stdlib"))
     implementation(kotlin("stdlib-jdk8"))
 }
 

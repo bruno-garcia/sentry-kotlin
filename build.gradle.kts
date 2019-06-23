@@ -19,7 +19,7 @@ subprojects {
         kotlinOptions.jvmTarget = "$javaVersion"
         dependencies {
             testImplementation("io.kotlintest:kotlintest-runner-junit5:3.3.2")
-            testCompile("org.jetbrains.kotlin:kotlin-test-junit:1.3.31")
+            testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.3.31")
         }
         dependsOn(tasks.named("formatKotlin"))
     }

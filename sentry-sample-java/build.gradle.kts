@@ -8,6 +8,6 @@ application {
 }
 
 dependencies {
-    compile(project(":sentry"))
+    implementation(project(":sentry"))
 }
 
