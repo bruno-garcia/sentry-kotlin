@@ -1,6 +1,14 @@
 package io.sentry
+import java.util.UUID
 
-class SentryEvent(
-    var name: String? = null,
-    var age: Int? = null
-)
+open class SentryEvent {
+    internal var eventUuid: UUID
+    val eventId: String
+        get() = eventUuid.toString().replace("-", "")
+
+    internal constructor(eventId: UUID?) {
+        this.eventUuid = eventId ?: UUID.randomUUID()
+    }
+
+    constructor() : this(UUID.randomUUID())
+}
