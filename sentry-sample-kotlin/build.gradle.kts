@@ -3,6 +3,7 @@ plugins {
     kotlin("jvm")
 }
 
+apply(plugin = "org.jmailen.kotlinter")
 
 application {
     mainClassName = "io.sentry.MainKt"

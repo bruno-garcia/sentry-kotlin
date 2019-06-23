@@ -4,7 +4,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 import kotlin.test.Test
 
-class SentryEventTest {
+class SentryClientTest {
     @Test
     fun divisionByZeroError() {
         assertEquals("/ by zero",

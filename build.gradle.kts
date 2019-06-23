@@ -18,17 +18,19 @@ subprojects {
     tasks.withType<KotlinCompile>().configureEach {
         kotlinOptions.jvmTarget = "$javaVersion"
         dependencies {
-            testImplementation("org.junit.jupiter:junit-jupiter:5.4.2")
+            testImplementation("io.kotlintest:kotlintest-runner-junit5:3.3.2")
             testCompile("org.jetbrains.kotlin:kotlin-test-junit:1.3.31")
         }
     }
+}
 
-    tasks.withType<Test>() {
-        useJUnitPlatform()
-        testLogging {
-            events("passed", "skipped", "failed")
-            showExceptions = true
-            showStandardStreams = true
+buildscript {
+    repositories {
+        maven {
+            url = uri("https://plugins.gradle.org/m2/")
         }
+    }
+    dependencies {
+        classpath("org.jmailen.gradle:kotlinter-gradle:1.26.0")
     }
 }
