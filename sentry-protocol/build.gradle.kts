@@ -5,7 +5,6 @@ plugins {
 }
 
 dependencies {
-    compile(project(":sentry-protocol"))
     compile(kotlin("stdlib"))
     implementation(kotlin("stdlib-jdk8"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.4.2")
