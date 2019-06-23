@@ -8,6 +8,6 @@ fun main() {
     println("Timestamp: ${event.timestamp}")
     println("Message: ${event.message}")
 
-    Sentry.init()
+    Sentry.init { o -> o.release = "6858af2" }
     Sentry.captureEvent(event)
 }

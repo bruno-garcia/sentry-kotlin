@@ -9,9 +9,12 @@ class Sentry {
         private var sentryClient: SentryClient = NoOpSentryClient.instance
 
         @JvmStatic
-        fun init() {
+        fun init(configure: (SentryOptions) -> Unit) {
+            var option = SentryOptions()
+            configure(option)
+
             var client = this.sentryClient
-            this.sentryClient = DefaultSentryClient()
+            this.sentryClient = DefaultSentryClient(option)
             client.close()
 
 //            val client = this.sentryClient.compareAndExchange(DefaultSentryClient(), NoOpSentryClient.instance)

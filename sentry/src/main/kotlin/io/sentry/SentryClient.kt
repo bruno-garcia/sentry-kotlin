@@ -5,7 +5,8 @@ interface SentryClient {
     fun close()
 }
 
-class DefaultSentryClient : SentryClient {
+class DefaultSentryClient constructor(private val options: SentryOptions) : SentryClient {
+
     override fun close() {
         TODO("not implemented")
     }
