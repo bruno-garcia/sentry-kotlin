@@ -1,6 +1,7 @@
 package io.sentry
 
-fun main(args: Array<String>) {
-    val eventId = SentryEvent().eventId
-    println("EventId: $eventId)")
+fun main() {
+    val event = SentryEvent()
+    println("EventId: ${event.eventId})")
+    println("Timestamp: ${event.timestamp}")
 }
