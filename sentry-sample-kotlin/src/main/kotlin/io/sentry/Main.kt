@@ -8,5 +8,6 @@ fun main() {
     println("Timestamp: ${event.timestamp}")
     println("Message: ${event.message}")
 
-    DefaultSentryClient().captureEvent(event)
+    Sentry.init()
+    Sentry.captureEvent(event)
 }

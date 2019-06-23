@@ -6,11 +6,10 @@ public class Main {
         event.setMessage("Sample event from Java");
 
         System.out.println("Event Id: " + event.getEventId());
-        System.out.println("Event Id: " + event.getEventId());
         System.out.println("Timestamp: " + event.getTimestamp());
         System.out.println("Message: " + event.getMessage());
 
-        SentryClient client = new DefaultSentryClient();
-        client.captureEvent(event);
+        Sentry.init();
+        Sentry.captureEvent(event);
     }
 }
