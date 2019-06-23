@@ -1,14 +1,14 @@
 package io.sentry
 
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.assertThrows
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
+import kotlin.test.Test
 
-class SentryClientTest {
+class SentryEventTest {
     @Test
     fun divisionByZeroError() {
         assertEquals("/ by zero",
-            assertThrows<ArithmeticException> {
+            assertFailsWith<ArithmeticException> {
                 1 / 0
             }.message)
     }

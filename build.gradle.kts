@@ -19,6 +19,7 @@ subprojects {
         kotlinOptions.jvmTarget = "$javaVersion"
         dependencies {
             testImplementation("org.junit.jupiter:junit-jupiter:5.4.2")
+            testCompile("org.jetbrains.kotlin:kotlin-test-junit:1.3.31")
         }
     }
 
