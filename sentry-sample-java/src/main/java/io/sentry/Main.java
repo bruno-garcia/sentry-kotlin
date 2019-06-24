@@ -9,7 +9,7 @@ public class Main {
         System.out.println("Timestamp: " + event.getTimestamp());
         System.out.println("Message: " + event.getMessage());
 
-        Sentry.init((SentryOptions o) -> o.setRelease("6858af2"));
+//        Sentry.init((SentryOptions o) -> o.setRelease("6858af2"));
         Sentry.captureEvent(event);
     }
 }
