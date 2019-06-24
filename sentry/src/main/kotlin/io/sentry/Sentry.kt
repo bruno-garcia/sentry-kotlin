@@ -9,12 +9,21 @@ class Sentry {
         private var sentryClient: SentryClient = NoOpSentryClient.instance
 
         @JvmStatic
-        fun init(configure: (SentryOptions) -> Unit) {
-            var option = SentryOptions()
-            configure(option)
+        fun init(
+            configure: (SentryOptions) ->
+   // https://youtrack.jetbrains.com/issue/KT-21018
+   // @JvmVoid
+   Unit
+        ) {
+            var options = SentryOptions()
+            configure(options)
+            init(options)
+        }
 
+        @JvmStatic
+        fun init(options: SentryOptions) {
             var client = this.sentryClient
-            this.sentryClient = DefaultSentryClient(option)
+            this.sentryClient = DefaultSentryClient(options)
             client.close()
 
 //            val client = this.sentryClient.compareAndExchange(DefaultSentryClient(), NoOpSentryClient.instance)
