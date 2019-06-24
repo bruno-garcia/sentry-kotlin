@@ -7,6 +7,7 @@ plugins {
 allprojects {
     repositories {
         jcenter()
+        mavenCentral()
     }
 }
 
@@ -20,6 +21,7 @@ subprojects {
         dependencies {
             testImplementation("io.kotlintest:kotlintest-runner-junit5:3.3.2")
             testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.3.31")
+            api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0-M1")
         }
         dependsOn(tasks.named("formatKotlin"))
     }
