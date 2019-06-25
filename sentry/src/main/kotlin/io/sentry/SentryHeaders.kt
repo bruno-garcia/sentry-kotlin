@@ -15,11 +15,16 @@ internal class SentryHeaders {
             publicKey: String,
             secretKey: String?
         ): Pair<String, String> {
-            val baseAuthHeader = "Sentry sentry_version=$sentryVersion," +
+            var baseAuthHeader = "Sentry sentry_version=$sentryVersion," +
                     "sentry_client=$clientVersion," +
-                    "sentry_key=$publicKey," +
-                    if (secretKey != null) "sentry_secret=$secretKey," else null +
-                            "sentry_timestamp=" + Instant.now().atZone(ZoneOffset.UTC).toEpochSecond()
+                    "sentry_key=$publicKey,"
+
+            if (secretKey != null) {
+                baseAuthHeader += "sentry_secret=$secretKey,"
+            }
+
+            val timestamp = Instant.now().atZone(ZoneOffset.UTC).toEpochSecond()
+            baseAuthHeader += "sentry_timestamp=$timestamp"
 
             return Pair(SENTRY_AUTH_HEADER, baseAuthHeader)
         }
