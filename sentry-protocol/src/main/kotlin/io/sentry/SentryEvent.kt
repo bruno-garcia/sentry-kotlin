@@ -3,12 +3,9 @@ import java.time.Instant
 import java.time.format.DateTimeFormatter
 import java.util.UUID
 
-
-
 open class SentryEvent {
     internal val eventUuid: UUID
     internal val eventInstant: Instant
-
 
     var message: String? = null
 
@@ -18,8 +15,6 @@ open class SentryEvent {
         get() = DateTimeFormatter.ISO_INSTANT.format(eventInstant)
 
     public val modules: MutableMap<String, String> = HashMap()
-
-
 
     constructor() : this(null, null)
 
