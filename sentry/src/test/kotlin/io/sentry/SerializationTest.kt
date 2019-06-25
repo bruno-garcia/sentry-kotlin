@@ -5,7 +5,6 @@ import com.google.gson.JsonParser
 import com.google.gson.JsonPrimitive
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 /**
  * Generic accessor for tests
@@ -19,7 +18,7 @@ private fun getValue(theObj: JsonObject, vararg path: String): Any {
     val element = theObj.get(currentPath) ?: throw Exception("could not find member at path $currentPath")
 
     if (path.size == 1) {
-        if (element is JsonPrimitive){
+        if (element is JsonPrimitive) {
             when {
                 element.isBoolean -> return element.asBoolean
                 element.isNumber -> return element.asNumber
@@ -28,7 +27,6 @@ private fun getValue(theObj: JsonObject, vararg path: String): Any {
             }
         }
         throw Exception("getValue can only navigate to primitive types")
-
     } else {
         if (element is JsonObject)
             return getValue(element, *path.drop(1).toTypedArray())
@@ -36,10 +34,9 @@ private fun getValue(theObj: JsonObject, vararg path: String): Any {
     }
 }
 
-private fun stringToJsonObj( serialized: String): JsonObject {
+private fun stringToJsonObj(serialized: String): JsonObject {
     return JsonParser().parse(serialized).asJsonObject
 }
-
 
 class SentrySerializationTest {
     @Test
@@ -49,7 +46,7 @@ class SentrySerializationTest {
         val jsonObj = stringToJsonObj(eventString)
 
         assertEquals(evt.eventId, getValue(jsonObj, "event_id"))
-        assertEquals(evt.timestamp, getValue(jsonObj, "time_stamp"))
+        assertEquals(evt.timestamp, getValue(jsonObj, "timestamp"))
     }
 
     @Test
@@ -61,9 +58,7 @@ class SentrySerializationTest {
         val eventString = serializeEvent(evt)
         val jsonObj = stringToJsonObj(eventString)
 
-        assertEquals("hello",  getValue(jsonObj,"modules", "module1"))
-        assertEquals("world",  getValue(jsonObj,"modules", "module2"))
-
+        assertEquals("hello", getValue(jsonObj, "modules", "module1"))
+        assertEquals("world", getValue(jsonObj, "modules", "module2"))
     }
-
 }
