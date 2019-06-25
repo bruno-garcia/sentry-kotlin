@@ -7,7 +7,7 @@ interface SentryClient {
 
 class DefaultSentryClient constructor(private val options: SentryOptions) : SentryClient {
 
-    private val worker: DefaultBackgroundWorker = DefaultBackgroundWorker(options, HttpTransport())
+    private val worker: DefaultBackgroundWorker = DefaultBackgroundWorker(options, HttpTransport(::serializeEvent))
 
     override fun close() {
         TODO("not implemented")

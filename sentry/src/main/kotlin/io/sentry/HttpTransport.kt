@@ -5,7 +5,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
 
-class HttpTransport : Transport {
+class HttpTransport constructor(val serializer: (SentryEvent) -> String) : Transport {
 
     private val client = OkHttpClient()
     private val JSON = MediaType.parse("application/json; charset=utf-8")
@@ -18,7 +18,9 @@ class HttpTransport : Transport {
             null
         )
 
-        val body = RequestBody.create(JSON, "{}")
+        val json = serializer(event)
+
+        val body = RequestBody.create(JSON, json)
         val request = Request.Builder()
             .url("https://sentry.io/api/1188141/store/")
             .header(auth.first, auth.second)

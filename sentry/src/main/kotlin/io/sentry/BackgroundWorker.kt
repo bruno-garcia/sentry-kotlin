@@ -18,9 +18,7 @@ internal class DefaultBackgroundWorker constructor(
         // Scope should be the lifetime of this worker. Meaning if the worker is disposed
         // ideally jobs should flush/dispose block until then, with a timeout.
         runBlocking { // but this expression blocks the main thread
-            GlobalScope.launch {
-                transport.captureEvent(event)
-            }
+            transport.captureEvent(event)
         }
         return true
     }

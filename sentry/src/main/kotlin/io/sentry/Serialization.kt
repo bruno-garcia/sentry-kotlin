@@ -12,15 +12,15 @@ fun serializeEvent(event: SentryEvent): String {
     return gson.toJson(event)
 }
 
-
 private class SentryEventSerializer : JsonSerializer<SentryEvent> {
     override fun serialize(src: SentryEvent?, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement {
         val jsonObj = JsonObject()
-        if ( src != null){
+        if (src != null) {
             jsonObj.let {
                 it.addProperty("event_id", src.eventId)
-                it.addProperty("time_stamp", src.timestamp)
-                if ( src.modules.isNotEmpty() && context != null){
+                it.addProperty("timestamp", src.timestamp)
+                it.addProperty("message", src.message)
+                if (src.modules.isNotEmpty() && context != null) {
                     it.add("modules", context.serialize(src.modules))
                 }
             }
