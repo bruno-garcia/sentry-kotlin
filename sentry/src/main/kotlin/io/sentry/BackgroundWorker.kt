@@ -11,10 +11,17 @@ internal class DefaultBackgroundWorker constructor(
 ) : BackgroundWorker {
 
     override fun enqueueEvent(event: SentryEvent): Boolean {
+        // TODO: Write to in memory queue. Drop event if queue is full
+        // Let worker thread read off of the queue and asynchronously flush events to ITransport
+
         // Which scope?
-        GlobalScope.launch {
-            transport.captureEvent(event)
+        // Scope should be the lifetime of this worker. Meaning if the worker is disposed
+        // ideally jobs should flush/dispose block until then, with a timeout.
+        runBlocking { // but this expression blocks the main thread
+            GlobalScope.launch {
+                transport.captureEvent(event)
+            }
         }
-        TODO("not implemented") // To change body of created functions use File | Settings | File Templates.
+        return true
     }
 }

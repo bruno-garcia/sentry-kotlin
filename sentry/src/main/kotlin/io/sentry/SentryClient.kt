@@ -14,7 +14,8 @@ class DefaultSentryClient constructor(private val options: SentryOptions) : Sent
     }
 
     override fun captureEvent(event: SentryEvent): String {
-        return event.eventId
+        worker.enqueueEvent(event)
+        return event.eventId/**/
     }
 }
 
