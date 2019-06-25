@@ -9,9 +9,9 @@ open class SentryEvent {
 
     var message: String? = null
 
-    val eventId: String
+    public val eventId: String
         get() = eventUuid.toString().replace("-", "")
-    val timestamp: String
+    public val timestamp: String
         get() = DateTimeFormatter.ISO_INSTANT.format(eventInstant)
 
     constructor() : this(null, null)
