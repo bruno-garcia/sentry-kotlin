@@ -14,13 +14,15 @@ fun serializeEvent(event: SentryEvent): String {
 
 private class SentryEventSerializer : JsonSerializer<SentryEvent> {
     override fun serialize(src: SentryEvent?, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement {
+        if (context == null)
+            throw Exception("Internal error. Serializer called without a context")
         val jsonObj = JsonObject()
         if (src != null) {
             jsonObj.let {
                 it.addProperty("event_id", src.eventId)
                 it.addProperty("timestamp", src.timestamp)
                 it.addProperty("message", src.message)
-                if (src.modules.isNotEmpty() && context != null) {
+                if (src.modules.isNotEmpty() ) {
                     it.add("modules", context.serialize(src.modules))
                 }
             }
