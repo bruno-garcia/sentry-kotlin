@@ -51,9 +51,12 @@ class SentrySerializationTest {
 
     @Test
     fun `should serialize module elements`() {
+        var modules = hashMapOf<String, String>()
+        modules["module1"] = "hello"
+        modules["module2"] = "world"
+
         val evt = SentryEvent()
-        evt.modules["module1"] = "hello"
-        evt.modules["module2"] = "world"
+        evt.modules = modules
 
         val eventString = serializeEvent(evt)
         val jsonObj = stringToJsonObj(eventString)

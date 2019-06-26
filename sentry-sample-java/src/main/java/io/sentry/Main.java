@@ -7,13 +7,16 @@ package io.sentry;
 public class Main {
     public static void main(String[] args) {
         SentryEvent event = new SentryEvent();
-        event.setMessage("Sample event from Java");
+
+        // TODO: No optional parameters? Having to pass nulls here isn't great and makes `data class` with all nullable
+        // fields less interesting
+        event.setLogEntry(new LogEntry("Sample event from Java", null, null));
 
         System.out.println("Event Id: " + event.getEventId());
         System.out.println("Timestamp: " + event.getTimestamp());
-        System.out.println("Message: " + event.getMessage());
+        System.out.println("Message: " + event.getLogEntry());
 
-        //  bad return type in lambda expression void cannot be converted to kotlin.Unit)
+        // TODO: bad return type in lambda expression void cannot be converted to kotlin.Unit)
         // Very much non idiomatic:
 //         Sentry.init((SentryOptions o) -> {
 //             o.setRelease("6858af2");
