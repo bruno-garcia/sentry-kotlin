@@ -21,7 +21,7 @@ private class SentryEventSerializer : JsonSerializer<SentryEvent> {
             jsonObj.let {
                 it.addProperty("event_id", src.eventId)
                 it.addProperty("timestamp", src.timestamp)
-                if (src.modules?.isNotEmpty() == true && context != null) {
+                if (src.modules?.isNotEmpty() == true) {
                     it.add("modules", context.serialize(src.modules))
                 }
             }

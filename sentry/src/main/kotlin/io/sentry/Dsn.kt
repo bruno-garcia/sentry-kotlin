@@ -32,15 +32,14 @@ internal class Dsn(dsn: String) {
                 throw Exception("Invalid Dns, blank project key")
             }
 
-
             val scheme = dsn.scheme // http | https
             val host = dsn.host
-            val port:Int = dsn.port
+            val port: Int = dsn.port
             val pathSegments = dsn.path.trim('/').split("/")
             val projectId = pathSegments.last()
 
             val path = if (pathSegments.size > 1)
-                pathSegments.dropLast(1).joinToString(prefix="/", separator = "/") else ""
+                pathSegments.dropLast(1).joinToString(prefix = "/", separator = "/") else ""
 
             val endpointPath = "$path/api/$projectId/store/"
 
@@ -54,8 +53,7 @@ internal class Dsn(dsn: String) {
                 port,
                 endpointPath,
                 null,
-               null).toString()
-
+                null).toString()
 
             // https://github.com/getsentry/sentry-dotnet-protocol/blob/master/src/Sentry.Protocol/Dsn.cs
             // https://github.com/getsentry/rust-sentry-types/blob/master/src/dsn.rs
