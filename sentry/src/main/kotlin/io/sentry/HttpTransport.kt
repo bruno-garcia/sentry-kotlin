@@ -5,7 +5,11 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
 
-class HttpTransport constructor(val serializer: (SentryEvent) -> String) : Transport {
+internal class HttpTransport constructor(
+    private val serializer: (SentryEvent) -> String,
+    private val dsn: Dsn
+) :
+    Transport {
 
     private val client = OkHttpClient()
     private val JSON = MediaType.parse("application/json; charset=utf-8")
@@ -14,21 +18,23 @@ class HttpTransport constructor(val serializer: (SentryEvent) -> String) : Trans
         val auth = SentryHeaders.getSentryAuth(
             7,
             "sentry.kotlin",
-            "5fd7a6cda8444965bade9ccfd3df9882",
-            null
+            dsn.publicKey,
+            dsn.secretKey
         )
 
         val json = serializer(event)
 
         val body = RequestBody.create(JSON, json)
         val request = Request.Builder()
-            .url("https://sentry.io/api/1188141/store/")
+            .url(dsn.sentryUrl)
             .header(auth.first, auth.second)
             .post(body)
             .build()
 
         client.newCall(request).execute().use { response ->
-            return response.body()!!.string()
+            val ret = response.body()!!.string()
+            println("Sentry replied: $ret")
+            return ret
         }
 
 //        suspendCancellableCoroutine { continuation ->

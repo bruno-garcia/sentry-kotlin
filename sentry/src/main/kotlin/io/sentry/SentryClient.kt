@@ -1,5 +1,7 @@
 package io.sentry
 
+import java.security.InvalidParameterException
+
 interface SentryClient {
     fun captureEvent(event: SentryEvent): String
     fun close()
@@ -7,7 +9,14 @@ interface SentryClient {
 
 class DefaultSentryClient constructor(private val options: SentryOptions) : SentryClient {
 
-    private val worker: DefaultBackgroundWorker = DefaultBackgroundWorker(options, HttpTransport(::serializeEvent))
+    private val worker: DefaultBackgroundWorker
+
+    init {
+        if (options.parsedDsn == null) {
+            throw InvalidParameterException("Options doesn't contain a DSN.")
+        }
+        worker = DefaultBackgroundWorker(options, HttpTransport(::serializeEvent, options.parsedDsn!!))
+    }
 
     override fun close() {
         TODO("not implemented")

@@ -25,6 +25,7 @@ public class Main {
 
         SentryOptions options = new SentryOptions();
         options.setRelease("6858af2");
+        options.setDsn("https://5fd7a6cda8444965bade9ccfd3df9882@sentry.io/1188141");
         Sentry.init(options);
 
         Sentry.captureEvent(event);

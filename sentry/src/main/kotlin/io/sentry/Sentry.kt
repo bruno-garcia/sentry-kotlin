@@ -23,6 +23,7 @@ class Sentry {
         @JvmStatic
         fun init(options: SentryOptions) {
             var client = this.sentryClient
+            // TODO: Locate DSN (i.e env var) if one wasn't provided
             this.sentryClient = DefaultSentryClient(options)
             client.close()
 
