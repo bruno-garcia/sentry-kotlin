@@ -9,12 +9,13 @@ open class SentryEvent {
 
     var message: String? = null
 
-    public val eventId: String
+    val eventId: String
         get() = eventUuid.toString().replace("-", "")
-    public val timestamp: String
+    val timestamp: String
         get() = DateTimeFormatter.ISO_INSTANT.format(eventInstant)
 
-    public val modules: MutableMap<String, String> = HashMap()
+    val modules: MutableMap<String, String> = hashMapOf()
+    var exceptions: MutableList<SentryException> = mutableListOf()
 
     constructor() : this(null, null)
 
