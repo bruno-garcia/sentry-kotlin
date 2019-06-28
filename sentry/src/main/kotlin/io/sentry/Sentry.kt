@@ -46,6 +46,8 @@ class Sentry {
 
         @JvmStatic
         fun captureEvent(event: SentryEvent): String = this.sentryClient.captureEvent(event)
-//        fun captureEvent(event: SentryEvent): String = this.sentryClient.get().captureEvent(event)
+
+        @JvmStatic
+        fun captureException(exception: Throwable): String = captureEvent(SentryEvent(exception))
     }
 }
