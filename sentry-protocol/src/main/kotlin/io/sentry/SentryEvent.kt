@@ -32,6 +32,7 @@ open class SentryEvent {
     var release: String? = null
     var modules: MutableMap<String, String>? = null
     var exceptions: MutableList<SentryException>? = null
+    val sdk: SdkVersion = SdkVersion()
 
     constructor() : this(null, null)
 
@@ -53,4 +54,9 @@ data class LogEntry(
     var message: String? = null,
     var formatted: String? = null,
     var params: MutableList<String>? = null
+)
+
+data class SdkVersion constructor(
+    val name: String = "sentry.kotlin",
+    val version: String = "0.0.0-alpha.000-really-alpha-0000001"
 )

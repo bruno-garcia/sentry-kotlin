@@ -12,6 +12,7 @@ fun serializeEvent(event: SentryEvent): String {
     gsonb.registerTypeAdapter(LogEntry::class.java, LogEntrySerializer())
     gsonb.registerTypeAdapter(SentryStackFrame::class.java, SentryStackFrameSerializer())
     gsonb.registerTypeAdapter(SentryStacktrace::class.java, SentryStacktraceSerializer())
+    gsonb.registerTypeAdapter(SdkVersion::class.java, SdkVersionSerializer())
     val gson = gsonb.create()
     return gson.toJson(event)
 }
@@ -29,6 +30,7 @@ private class SentryEventSerializer : JsonSerializer<SentryEvent> {
                 it.addProperty("logger", src.logger)
                 it.addProperty("server_name", src.serverName)
                 it.addProperty("release", src.release)
+                it.add("sdk", context.serialize(src.sdk))
                 if (src.exceptions?.isNotEmpty() == true) {
                     it.add("exception", context.serialize(src.exceptions))
                 }
@@ -129,6 +131,22 @@ private class LogEntrySerializer : JsonSerializer<LogEntry> {
                 if (src.params?.isNotEmpty() == true) {
                     it.add("params", context.serialize(src.params))
                 }
+            }
+        }
+        return jsonObj
+    }
+}
+
+private class SdkVersionSerializer : JsonSerializer<SdkVersion> {
+    override fun serialize(src: SdkVersion?, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement {
+        if (context == null) {
+            throw Exception("Internal error. Serializer called without a context")
+        }
+        val jsonObj = JsonObject()
+        if (src != null) {
+            jsonObj.let {
+                it.add("name", context.serialize(src.name))
+                it.add("version", context.serialize(src.version))
             }
         }
         return jsonObj
