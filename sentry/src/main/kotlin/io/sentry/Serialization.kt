@@ -28,7 +28,7 @@ private class SentryEventSerializer : JsonSerializer<SentryEvent> {
                 it.addProperty("server_name", src.serverName)
                 it.addProperty("release", src.release)
                 if (src.exceptions?.isNotEmpty() == true) {
-                    it.add("exceptions", context.serialize(src.exceptions))
+                    it.add("exception", context.serialize(src.exceptions))
                 }
                 if (src.modules?.isNotEmpty() == true) {
                     it.add("modules", context.serialize(src.modules))
