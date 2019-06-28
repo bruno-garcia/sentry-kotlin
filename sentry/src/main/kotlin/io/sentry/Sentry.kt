@@ -1,12 +1,25 @@
 package io.sentry
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.coroutineScope
+import java.sql.Timestamp
+
 // The static entry point to the SDK.
 class Sentry {
     companion object {
 //        private var sentryClient: AtomicReference<SentryClient> = AtomicReference(NoOpSentryClient.instance)
 
+        private var hubWrapper: ThreadLocal<SentryHub> = ThreadLocal()
+            get(){
+                if ( field.get() == null){
+                    val hub = DefaultSentryHub(sentryClient)
+                    field.set(hub)
+                }
+                return field
+            }
+
         @Volatile
-        internal var sentryClient: SentryClient = NoOpSentryClient.instance
+        private var sentryClient: SentryClient = NoOpSentryClient.instance
 
         @JvmStatic
         fun init(
@@ -49,5 +62,26 @@ class Sentry {
 
         @JvmStatic
         fun captureException(exception: Throwable): String = captureEvent(SentryEvent(exception))
+
+
+        @JvmStatic
+        fun addBreadcrumb( message: String): Unit {
+            val hub = hubWrapper.get()
+            val breadcrumb = Breadcrumb(message, Timestamp(System.currentTimeMillis()))
+            hub.addBreadcrumb(breadcrumb)
+        }
+
+        suspend fun withScope(block: CoroutineScope.() -> Unit) {
+
+            var hub = hubWrapper.get()
+            if (hub == null) {
+                // no hub in this context create one
+                hub = DefaultSentryHub(Sentry.sentryClient)
+                hubWrapper.set(hub)
+            }
+            coroutineScope {
+                block()
+            }
+        }
     }
 }
