@@ -7,7 +7,7 @@ internal class SentryUncaughtExceptionHandler : Thread.UncaughtExceptionHandler 
             val event = SentryEvent(throwable).apply {
                 logEntry = LogEntry().apply {
                     formatted = throwable?.message
-//                    level = "fatal"
+                    level = "fatal"
                 }
             }
                 Sentry.captureEvent(event)

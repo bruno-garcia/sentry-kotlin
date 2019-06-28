@@ -1,5 +1,4 @@
 package io.sentry
-import java.sql.Timestamp
 import java.time.Instant
 import java.time.format.DateTimeFormatter
 import java.util.UUID
@@ -26,6 +25,7 @@ open class SentryEvent {
 
     var logEntry: LogEntry? = null
     var logger: String? = null
+    var level: String = "error"
     var serverName: String? = null
     var release: String? = null
     var modules: MutableMap<String, String>? = null
@@ -58,4 +58,4 @@ data class SdkVersion constructor(
     val name: String = "sentry.kotlin",
     val version: String = "0.0.0-alpha.000-really-alpha-0000001"
 )
-data class Breadcrumb(val name: String, val timestamp: Timestamp)
+data class Breadcrumb(val message: String, val timestamp: Instant)

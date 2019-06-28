@@ -1,23 +1,47 @@
 package io.sentry
 
+import kotlinx.coroutines.runBlocking
 import javax.management.InvalidApplicationException
 
 fun main() {
-    val event = SentryEvent().apply {
-        logEntry = LogEntry(formatted = "Sample event from Kotlin")
-        logger = "Kotlin-main"
-        release = "6858af2"
-    }
-
-    println("EventId: ${event.eventId})")
-    println("Timestamp: ${event.timestamp}")
-
     Sentry.init { o ->
-        o.dsn = "https://5fd7a6cda8444965bade9ccfd3df9882@sentry.io/1188141"
+//        o.dsn = "https://5fd7a6cda8444965bade9ccfd3df9882@sentry.io/1188141"
+        o.dsn = "https://d29a5a7b9d8d4b4591d4e5bd434fe393@sentry.io/24969"
         o.release = "6858af2"
     }
 
-    Sentry.captureEvent(event)
+    runBlocking {
+        Sentry.withScope {
+            Sentry.addBreadcrumb("Scope 1 hello")
+            Sentry.addBreadcrumb("Scope 1 world")
+
+            val first = SentryEvent().apply {
+                logEntry = LogEntry(formatted = "Sample event from Kotlin Scope 1")
+                logger = "Kotlin-main"
+                release = "6858af2"
+            }
+            Sentry.captureEvent(first)
+        }
+        Sentry.withScope {
+            Sentry.addBreadcrumb("Scope 2 hello")
+            Sentry.addBreadcrumb("Scope 2 world")
+
+            val second = SentryEvent().apply {
+                logEntry = LogEntry(formatted = "Sample event from Kotlin Scope 2")
+                logger = "Kotlin-main"
+                release = "6858af2"
+            }
+            Sentry.captureEvent(second)
+        }
+
+        // no scope
+        val third = SentryEvent().apply {
+            logEntry = LogEntry(formatted = "Sample event from Kotlin without Scope")
+            logger = "Kotlin-main"
+            release = "6858af2"
+        }
+        Sentry.captureEvent(third)
+    }
 
     try {
         crappyFunction()
@@ -29,6 +53,4 @@ fun main() {
     }
 }
 
-fun crappyFunction() {
-    throw InvalidApplicationException("Test exception.")
-}
+fun crappyFunction(): Nothing = throw InvalidApplicationException("Test exception.")

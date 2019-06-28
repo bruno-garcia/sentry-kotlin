@@ -56,6 +56,4 @@ class SentryHubTest {
         }
         println("Test 2 time $time1")
     }
-
-
 }

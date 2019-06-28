@@ -1,7 +1,9 @@
 package io.sentry
 
+import java.lang.reflect.Field
 import java.net.InetAddress
 import java.security.InvalidParameterException
+import java.util.Vector
 
 interface SentryClient {
     fun captureEvent(event: SentryEvent): String
@@ -45,6 +47,29 @@ class DefaultSentryClient constructor(private val options: SentryOptions) : Sent
                 event.exceptions = mutableListOf(ex)
             }
         }
+
+        if (event.modules == null) {
+            val modules = mutableMapOf<String, String>()
+            val field: Field
+            try {
+                field = ClassLoader::class.java.getDeclaredField("classes")
+                field.isAccessible = true
+                val classLoader = Thread.currentThread().contextClassLoader
+                @SuppressWarnings("unchecked")
+                val classes = field.get(classLoader) as Vector<Class<*>>
+
+                for (cls in classes) {
+                    val location = cls.getResource('/'.toString() + cls.name.replace('.', '/') + ".class")
+                        ?: continue
+                    modules[location.toString().substringAfterLast("/")] = location.toString()
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            event.modules = modules
+        }
+
         worker.enqueueEvent(event)
         return event.eventId
     }

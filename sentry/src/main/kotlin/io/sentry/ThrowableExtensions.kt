@@ -11,14 +11,16 @@ fun Throwable?.toSentryException(): SentryException? {
     ex.module = this.javaClass.getPackage()?.name
     ex.value = this.message
 
-    val frames = this.stackTrace?.map {
-        SentryStackFrame().apply {
-            filename = it.fileName
-            lineno = it.lineNumber
-            filename = it.fileName
-            function = it.methodName
-            // TODO: Intellij sees it but gradlew fails to compile
-            // module = it.moduleName
+    val frames = this.stackTrace?.filter {
+            it.lineNumber != -1
+        }?.map {
+            SentryStackFrame().apply {
+                filename = it.fileName
+                lineno = it.lineNumber
+                filename = it.fileName
+                function = it.methodName
+                // TODO: Intellij sees it but gradlew fails to compile
+                // module = it.moduleName
         }
     }
 
