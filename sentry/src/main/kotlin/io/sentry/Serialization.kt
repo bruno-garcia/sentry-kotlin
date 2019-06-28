@@ -28,6 +28,7 @@ private class SentryEventSerializer : JsonSerializer<SentryEvent> {
                 it.addProperty("event_id", src.eventId)
                 it.addProperty("timestamp", src.timestamp)
                 it.addProperty("logger", src.logger)
+                it.addProperty("level", src.level)
                 it.addProperty("server_name", src.serverName)
                 it.addProperty("release", src.release)
                 it.add("sdk", context.serialize(src.sdk))

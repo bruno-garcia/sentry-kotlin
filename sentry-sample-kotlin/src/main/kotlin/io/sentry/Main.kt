@@ -29,6 +29,4 @@ fun main() {
     }
 }
 
-fun crappyFunction() {
-    throw InvalidApplicationException("Test exception.")
-}
+fun crappyFunction(): Nothing = throw InvalidApplicationException("Test exception.")

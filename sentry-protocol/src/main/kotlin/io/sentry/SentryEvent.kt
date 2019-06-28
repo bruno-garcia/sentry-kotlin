@@ -26,6 +26,7 @@ open class SentryEvent {
 
     var logEntry: LogEntry? = null
     var logger: String? = null
+    var level: String = "error"
     var serverName: String? = null
     var release: String? = null
     var modules: MutableMap<String, String>? = null

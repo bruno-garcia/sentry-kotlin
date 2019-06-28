@@ -6,8 +6,6 @@ public class Main {
     public static void main(String[] args) throws InvalidApplicationException {
         SentryEvent event = new SentryEvent();
 
-        // TODO: No optional parameters? Having to pass nulls here isn't great and makes `data class` with all nullable
-        // fields less interesting
         event.setLogEntry(new LogEntry("Sample event from Java", null, null));
         event.setLogger("Java-main");
         event.setRelease("6858af2");
