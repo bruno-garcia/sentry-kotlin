@@ -53,11 +53,10 @@ class DefaultSentryHub constructor(private val client: SentryClient) : SentryHub
         scope.breakcrumbs.add(breadcrumb)
     }
 
-    override fun addTag( key:String, value: String){
+    override fun addTag(key: String, value: String) {
         val scope = scopeStack.last()
         scope.tags[key] = value
     }
-
 
         override fun pushScope(): SentryHub {
         val newHub = DefaultSentryHub(this)

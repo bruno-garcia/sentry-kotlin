@@ -5,8 +5,8 @@ import javax.management.InvalidApplicationException
 
 fun main() {
     Sentry.init { o ->
-//        o.dsn = "https://5fd7a6cda8444965bade9ccfd3df9882@sentry.io/1188141"
-        o.dsn = "https://d29a5a7b9d8d4b4591d4e5bd434fe393@sentry.io/24969"
+        o.dsn = "https://5fd7a6cda8444965bade9ccfd3df9882@sentry.io/1188141"
+//        o.dsn = "https://d29a5a7b9d8d4b4591d4e5bd434fe393@sentry.io/24969"
         o.release = "6858af2"
     }
 
@@ -19,7 +19,6 @@ fun main() {
 
             Sentry.addTag("a", "scope 1 A")
             Sentry.addTag("c", "scope 1 C")
-
 
             val first = SentryEvent().apply {
                 logEntry = LogEntry(formatted = "Sample event from Kotlin Scope 1")
@@ -43,10 +42,9 @@ fun main() {
             Sentry.captureEvent(second)
         }
 
-        //override the external A
+        // override the external A
         Sentry.addTag("a", "external A overridden")
         Sentry.addTag("e", "external E")
-
 
         // no scope
         val third = SentryEvent().apply {

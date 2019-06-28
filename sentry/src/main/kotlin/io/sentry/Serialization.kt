@@ -154,7 +154,7 @@ private class SdkVersionSerializer : JsonSerializer<SdkVersion> {
         val jsonObj = JsonObject()
         if (src != null) {
             jsonObj.let {
-                it.add("message", context.serialize(src.name))
+                it.add("name", context.serialize(src.name))
                 it.add("version", context.serialize(src.version))
             }
         }
