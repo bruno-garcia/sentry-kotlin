@@ -10,7 +10,7 @@ class SentryException {
     var data: HashMap<String, Any>? = null
 }
 
-data class SentryStacktrace constructor(val frames: MutableList<SentryStackFrame>)
+data class SentryStacktrace constructor(val frames: List<SentryStackFrame>)
 
 class SentryStackFrame {
     var filename: String? = null

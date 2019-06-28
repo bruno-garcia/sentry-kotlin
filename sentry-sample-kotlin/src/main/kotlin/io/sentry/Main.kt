@@ -19,5 +19,16 @@ fun main() {
 
     Sentry.captureEvent(event)
 
+    try {
+        crappyFunction()
+    } catch (throwable: Throwable) {
+        Sentry.captureException(throwable)
+
+        // rethrown and crash the app!
+        throw throwable
+    }
+}
+
+fun crappyFunction() {
     throw InvalidApplicationException("Test exception.")
 }
