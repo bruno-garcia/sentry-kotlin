@@ -1,5 +1,7 @@
 package io.sentry
 
+import javax.management.InvalidApplicationException
+
 fun main() {
     val event = SentryEvent().apply {
         logEntry = LogEntry(formatted = "Sample event from Kotlin")
@@ -16,4 +18,6 @@ fun main() {
     }
 
     Sentry.captureEvent(event)
+
+    throw InvalidApplicationException("Test exception.")
 }

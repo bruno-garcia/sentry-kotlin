@@ -4,7 +4,7 @@ import java.time.Instant
 import java.time.format.DateTimeFormatter
 import java.util.UUID
 
-data class BreadCrumb(val name: String , val timestamp: Timestamp)
+data class BreadCrumb(val name: String, val timestamp: Timestamp)
 
 open class SentryEvent {
     internal val eventUuid: UUID

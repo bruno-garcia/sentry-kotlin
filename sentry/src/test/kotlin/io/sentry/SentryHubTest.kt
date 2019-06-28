@@ -4,16 +4,12 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 import kotlin.test.Test
-
 
 import kotlin.coroutines.*
 import kotlin.system.measureTimeMillis
 
 // import kotlin.system.*
-
 
 class SentryHubTest {
     @Test
@@ -21,17 +17,15 @@ class SentryHubTest {
         val time1 = measureTimeMillis {
             runBlocking {
                 coroutineScope {
-                    launch{
+                    launch {
                         println("scope1 start")
                         delay(100)
                         println("scope1 end")
-
                     }
-                    launch{
+                    launch {
                         println("scope2 start")
                         delay(100)
                         println("scope2 end")
-
                     }
                 }
             }
@@ -47,16 +41,14 @@ class SentryHubTest {
                         println("scope1 start")
                         delay(100)
                         println("scope1 end")
-
                     }
                 }
 
-                coroutineScope{
-                    launch{
+                coroutineScope {
+                    launch {
                         println("scope2 start")
                         delay(100)
                         println("scope2 end")
-
                     }
                 }
             }
