@@ -4,8 +4,6 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 import kotlin.test.Test
 
 import kotlin.coroutines.*
@@ -19,23 +17,22 @@ class SentryScopeTest {
         val time1 = measureTimeMillis {
             runBlocking {
                 coroutineScope {
-                    launch{
+                    launch {
                         println("scope1 start")
                         delay(100)
                         println("scope1 end")
-
                     }
-                    launch{
+                    launch {
                         println("scope2 start")
                         delay(100)
                         println("scope2 end")
-
                     }
                 }
             }
-         }
+        }
         println("Test 1 time $time1")
     }
+
     @Test
     fun `test2`() {
         val time1 = measureTimeMillis {
@@ -45,16 +42,14 @@ class SentryScopeTest {
                         println("scope1 start")
                         delay(100)
                         println("scope1 end")
-
                     }
                 }
 
-                coroutineScope{
-                    launch{
+                coroutineScope {
+                    launch {
                         println("scope2 start")
                         delay(100)
                         println("scope2 end")
-
                     }
                 }
             }
@@ -63,7 +58,7 @@ class SentryScopeTest {
     }
 
     @Test
-    fun cloning(){
+    fun cloning() {
         val x = mutableListOf("a", "c", "d")
 
         val y = x.toMutableList()
@@ -73,5 +68,4 @@ class SentryScopeTest {
         println("x is $x")
         println("y is $y")
     }
-
 }
