@@ -7,6 +7,9 @@ import java.util.UUID
 data class BreadCrumb(val name: String, val timestamp: Timestamp)
 
 open class SentryEvent {
+    // TODO: make internals visible to 'sentry' and mark this internal
+    var throwable: Throwable? = null
+
     internal val eventUuid: UUID
     internal val eventInstant: Instant
 
@@ -31,6 +34,11 @@ open class SentryEvent {
     var exceptions: MutableList<SentryException>? = null
 
     constructor() : this(null, null)
+
+    // TODO: Make internal
+    constructor(throwable: Throwable?) : this() {
+        this.throwable = throwable
+    }
 
     internal constructor(
         eventId: UUID?,

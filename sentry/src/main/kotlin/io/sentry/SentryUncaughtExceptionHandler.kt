@@ -4,7 +4,7 @@ internal class SentryUncaughtExceptionHandler : Thread.UncaughtExceptionHandler 
     private var originalHandler: Thread.UncaughtExceptionHandler? = Thread.getDefaultUncaughtExceptionHandler()
 
     override fun uncaughtException(thread: Thread?, throwable: Throwable?) {
-            val event = SentryEvent().apply {
+            val event = SentryEvent(throwable).apply {
                 logEntry = LogEntry().apply {
                     formatted = throwable?.message
 //                    level = "fatal"
