@@ -75,6 +75,13 @@ class Sentry {
             hub.addBreadcrumb(breadcrumb)
         }
 
+        @JvmStatic
+        fun addTag( key:String, value: String){
+            val hub = hubWrapper.get()
+            hub.addTag(key, value)
+
+        }
+
         suspend fun withScope(block: CoroutineScope.() -> Unit) {
 
             var hub = hubWrapper.get()

@@ -3,6 +3,7 @@ package io.sentry
 interface SentryHub : SentryClient {
     fun addBreadcrumb(breadcrumb: Breadcrumb)
     fun pushScope(): SentryHub
+    fun addTag(key: String, value: String)
 }
 
 // TODO RaduW at the moment this is not thread safe, need to look at Kotlin concurrency primitives
@@ -52,7 +53,13 @@ class DefaultSentryHub constructor(private val client: SentryClient) : SentryHub
         scope.breakcrumbs.add(breadcrumb)
     }
 
-    override fun pushScope(): SentryHub {
+    override fun addTag( key:String, value: String){
+        val scope = scopeStack.last()
+        scope.tags[key] = value
+    }
+
+
+        override fun pushScope(): SentryHub {
         val newHub = DefaultSentryHub(this)
         val scope = scopeStack.last()
         val newScope = scope.clone()

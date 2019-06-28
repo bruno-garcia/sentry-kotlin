@@ -11,9 +11,15 @@ fun main() {
     }
 
     runBlocking {
+        Sentry.addTag("a", "external A")
+        Sentry.addTag("b", "external B")
         Sentry.withScope {
             Sentry.addBreadcrumb("Scope 1 hello")
             Sentry.addBreadcrumb("Scope 1 world")
+
+            Sentry.addTag("a", "scope 1 A")
+            Sentry.addTag("c", "scope 1 C")
+
 
             val first = SentryEvent().apply {
                 logEntry = LogEntry(formatted = "Sample event from Kotlin Scope 1")
@@ -26,6 +32,9 @@ fun main() {
             Sentry.addBreadcrumb("Scope 2 hello")
             Sentry.addBreadcrumb("Scope 2 world")
 
+            Sentry.addTag("a", "scope 2 A")
+            Sentry.addTag("d", "scope 2 D")
+
             val second = SentryEvent().apply {
                 logEntry = LogEntry(formatted = "Sample event from Kotlin Scope 2")
                 logger = "Kotlin-main"
@@ -33,6 +42,11 @@ fun main() {
             }
             Sentry.captureEvent(second)
         }
+
+        //override the external A
+        Sentry.addTag("a", "external A overridden")
+        Sentry.addTag("e", "external E")
+
 
         // no scope
         val third = SentryEvent().apply {

@@ -40,6 +40,9 @@ private class SentryEventSerializer : JsonSerializer<SentryEvent> {
                 if (src.modules?.isNotEmpty() == true) {
                     it.add("modules", context.serialize(src.modules))
                 }
+                if (src.tags.isNotEmpty() == true) {
+                    it.add("tags", context.serialize(src.tags))
+                }
                 if (src.logEntry != null) {
                     it.add("logentry", context.serialize(src.logEntry))
                 }
