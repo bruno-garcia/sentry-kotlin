@@ -1,5 +1,8 @@
 package io.sentry
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.coroutineScope
+
 interface SentryHub : SentryClient
 
 // TODO RaduW at the moment this is not thread safe, need to look at Kotlin concurrency primitives
@@ -21,8 +24,8 @@ class DefaultSentryHub constructor(private val client: SentryClient) : SentryHub
             // TODO Decide what is the correct behavior when the user adds breadcrumbs to the
             // event and we also have breadcrumbs in scope (a sorted merge based on timestamp ?)
             // I (RaduW) I would not have events directly settable on SentryEvent
-            if (scope.breakCrumbs.isNotEmpty() && event.breadCrumb.isEmpty()) {
-                event.breadCrumb = scope.breakCrumbs.toMutableList()
+            if (scope.breakcrumbs.isNotEmpty() && event.breadcrumbs.isEmpty()) {
+                event.breadcrumbs = scope.breakcrumbs.toMutableList()
             }
 
             // TODO Decide what is the correct behavior for merging extra
@@ -37,5 +40,18 @@ class DefaultSentryHub constructor(private val client: SentryClient) : SentryHub
         }
         // enhance event with scope data
         return event
+    }
+}
+
+suspend fun withSentryScope(block: CoroutineScope.() -> Unit) {
+    val hubWrapper = ThreadLocal<SentryHub?>()
+    var hub = hubWrapper.get()
+    if (hub == null) {
+        // no hub in this context create one
+        hub = DefaultSentryHub(Sentry.sentryClient)
+        hubWrapper.set(hub)
+    }
+    coroutineScope {
+        block()
     }
 }

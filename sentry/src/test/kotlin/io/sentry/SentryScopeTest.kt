@@ -32,6 +32,7 @@ class SentryScopeTest {
         }
         println("Test 1 time $time1")
     }
+
     @Test
     fun `test2`() {
         val time1 = measureTimeMillis {

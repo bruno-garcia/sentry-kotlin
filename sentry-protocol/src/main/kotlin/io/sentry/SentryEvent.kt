@@ -4,8 +4,6 @@ import java.time.Instant
 import java.time.format.DateTimeFormatter
 import java.util.UUID
 
-data class BreadCrumb(val name: String, val timestamp: Timestamp)
-
 open class SentryEvent {
     // TODO: make internals visible to 'sentry' and mark this internal
     var throwable: Throwable? = null
@@ -21,7 +19,7 @@ open class SentryEvent {
     // Scope data
     var tags: MutableMap<String, String> = mutableMapOf()
     var extra: MutableMap<String, Any> = mutableMapOf()
-    var breadCrumb: MutableList<BreadCrumb> = mutableListOf()
+    var breadcrumbs: MutableList<Breadcrumb> = mutableListOf()
     var fingerprint: MutableList<String>? = null
     var request: SentryRequest? = null
     var context: SentryContext? = null
@@ -60,3 +58,4 @@ data class SdkVersion constructor(
     val name: String = "sentry.kotlin",
     val version: String = "0.0.0-alpha.000-really-alpha-0000001"
 )
+data class Breadcrumb(val name: String, val timestamp: Timestamp)

@@ -6,14 +6,14 @@ class Sentry {
 //        private var sentryClient: AtomicReference<SentryClient> = AtomicReference(NoOpSentryClient.instance)
 
         @Volatile
-        private var sentryClient: SentryClient = NoOpSentryClient.instance
+        internal var sentryClient: SentryClient = NoOpSentryClient.instance
 
         @JvmStatic
         fun init(
             configure: (SentryOptions) ->
-   // https://youtrack.jetbrains.com/issue/KT-21018
-   // @JvmVoid
-   Unit
+            // https://youtrack.jetbrains.com/issue/KT-21018
+            // @JvmVoid
+            Unit
         ) {
             var options = SentryOptions()
             configure(options)
