@@ -69,6 +69,11 @@ class Sentry {
         fun captureException(exception: Throwable): String = captureEvent(SentryEvent(exception))
 
         @JvmStatic
+        fun captureMessage(message: String): String = captureEvent(SentryEvent().apply {
+            logEntry = LogEntry(formatted = message)
+        })
+
+        @JvmStatic
         fun addBreadcrumb(message: String) {
             val hub = hubWrapper.get()
             val breadcrumb = Breadcrumb(message, Instant.now())

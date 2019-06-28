@@ -9,8 +9,6 @@ import kotlin.test.Test
 import kotlin.coroutines.*
 import kotlin.system.measureTimeMillis
 
-// import kotlin.system.*
-
 class SentryScopeTest {
     @Test
     fun `test1`() {
