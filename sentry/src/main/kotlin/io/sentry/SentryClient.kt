@@ -1,5 +1,6 @@
 package io.sentry
 
+import java.net.InetAddress
 import java.security.InvalidParameterException
 
 interface SentryClient {
@@ -23,6 +24,13 @@ class DefaultSentryClient constructor(private val options: SentryOptions) : Sent
     }
 
     override fun captureEvent(event: SentryEvent): String {
+        if (event.release == null && options.release != null) {
+            event.release = options.release
+        }
+
+        if (event.serverName == null) {
+            event.serverName = InetAddress.getLocalHost().hostName
+        }
         worker.enqueueEvent(event)
         return event.eventId/**/
     }
