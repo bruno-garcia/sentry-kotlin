@@ -1,5 +1,4 @@
 package io.sentry
-import java.sql.Timestamp
 import java.time.Instant
 import java.time.format.DateTimeFormatter
 import java.util.UUID
@@ -59,4 +58,4 @@ data class SdkVersion constructor(
     val name: String = "sentry.kotlin",
     val version: String = "0.0.0-alpha.000-really-alpha-0000001"
 )
-data class Breadcrumb(val name: String, val timestamp: Timestamp)
+data class Breadcrumb(val name: String, val timestamp: Instant)

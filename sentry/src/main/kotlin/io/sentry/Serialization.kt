@@ -3,6 +3,7 @@ package io.sentry
 import com.google.gson.*
 
 import java.lang.reflect.Type
+import java.time.format.DateTimeFormatter
 
 fun serializeEvent(event: SentryEvent): String {
 
@@ -13,6 +14,7 @@ fun serializeEvent(event: SentryEvent): String {
     gsonb.registerTypeAdapter(SentryStackFrame::class.java, SentryStackFrameSerializer())
     gsonb.registerTypeAdapter(SentryStacktrace::class.java, SentryStacktraceSerializer())
     gsonb.registerTypeAdapter(SdkVersion::class.java, SdkVersionSerializer())
+    gsonb.registerTypeAdapter(Breadcrumb::class.java, BreadcrumbSerializer())
     val gson = gsonb.create()
     return gson.toJson(event)
 }
@@ -40,6 +42,9 @@ private class SentryEventSerializer : JsonSerializer<SentryEvent> {
                 }
                 if (src.logEntry != null) {
                     it.add("logentry", context.serialize(src.logEntry))
+                }
+                if (src.breadcrumbs.isNotEmpty()) {
+                    it.add("breadcrumbs", context.serialize(src.breadcrumbs))
                 }
             }
         }
@@ -148,6 +153,22 @@ private class SdkVersionSerializer : JsonSerializer<SdkVersion> {
             jsonObj.let {
                 it.add("name", context.serialize(src.name))
                 it.add("version", context.serialize(src.version))
+            }
+        }
+        return jsonObj
+    }
+}
+
+private class BreadcrumbSerializer : JsonSerializer<Breadcrumb> {
+    override fun serialize(src: Breadcrumb?, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement {
+        if (context == null) {
+            throw Exception("Internal error. Serializer called without a context")
+        }
+        val jsonObj = JsonObject()
+        if (src != null) {
+            jsonObj.let {
+                it.add("name", context.serialize(src.name))
+                it.add("timestamp", context.serialize(DateTimeFormatter.ISO_INSTANT.format(src.timestamp)))
             }
         }
         return jsonObj

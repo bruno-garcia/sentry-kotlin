@@ -58,7 +58,7 @@ class SentryHubTest {
     }
 
     @Test
-    fun testScope(){
+    fun testScope() {
 
         Sentry.init { o ->
             o.dsn = "https://5fd7a6cda8444965bade9ccfd3df9882@sentry.io/1188141"
@@ -68,7 +68,7 @@ class SentryHubTest {
         var event: SentryEvent?
 
         runBlocking {
-            Sentry.withScope{
+            Sentry.withScope {
                 Sentry.addBreadcrumb("Scope 1 hello")
                 Sentry.addBreadcrumb("Scope 1 world")
 
@@ -78,9 +78,8 @@ class SentryHubTest {
                     release = "6858af2"
                 }
                 Sentry.captureEvent(event!!)
-
             }
-            Sentry.withScope{
+            Sentry.withScope {
                 Sentry.addBreadcrumb("Scope 2 hello")
                 Sentry.addBreadcrumb("Scope 2 world")
 
@@ -90,7 +89,6 @@ class SentryHubTest {
                     release = "6858af2"
                 }
                 Sentry.captureEvent(event!!)
-
             }
 
             // no scope
@@ -101,6 +99,5 @@ class SentryHubTest {
             }
             Sentry.captureEvent(event!!)
         }
-
     }
 }
