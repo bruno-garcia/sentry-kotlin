@@ -37,14 +37,14 @@ class DefaultSentryClient constructor(private val options: SentryOptions) : Sent
         }
 
 //        // TODO: Run exception processors against the throwable
-//        val ex = event.throwable?.toSentryException()
-//        if (ex != null) {
-//            if (event.exceptions != null) {
-//                event.exceptions!!.add(ex)
-//            } else {
-//                event.exceptions = mutableListOf(ex)
-//            }
-//        }
+        val ex = event.throwable?.toSentryException()
+        if (ex != null) {
+            if (event.exceptions != null) {
+                event.exceptions!!.add(ex)
+            } else {
+                event.exceptions = mutableListOf(ex)
+            }
+        }
         worker.enqueueEvent(event)
         return event.eventId
     }
