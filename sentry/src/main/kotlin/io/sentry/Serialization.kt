@@ -10,6 +10,8 @@ fun serializeEvent(event: SentryEvent): String {
     gsonb.registerTypeAdapter(SentryEvent::class.java, SentryEventSerializer())
     gsonb.registerTypeAdapter(SentryException::class.java, SentryExceptionSerializer())
     gsonb.registerTypeAdapter(LogEntry::class.java, LogEntrySerializer())
+    gsonb.registerTypeAdapter(SentryStackFrame::class.java, SentryStackFrameSerializer())
+    gsonb.registerTypeAdapter(SentryStacktrace::class.java, SentryStacktraceSerializer())
     val gson = gsonb.create()
     return gson.toJson(event)
 }
@@ -54,6 +56,60 @@ private class SentryExceptionSerializer : JsonSerializer<SentryException> {
                 it.add("module", context.serialize(src.module))
                 it.add("threadId", context.serialize(src.threadId))
                 it.add("type", context.serialize(src.type))
+                it.add("stacktrace", context.serialize(src.stacktrace))
+            }
+        }
+        return jsonObj
+    }
+}
+
+private class SentryStacktraceSerializer : JsonSerializer<SentryStacktrace> {
+    override fun serialize(src: SentryStacktrace?, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement {
+        if (context == null) {
+            throw Exception("Internal error. Serializer called without a context")
+        }
+        val jsonObj = JsonObject()
+        if (src != null) {
+            jsonObj.add("frames", context.serialize(src.frames))
+        }
+        return jsonObj
+    }
+}
+
+private class SentryStackFrameSerializer : JsonSerializer<SentryStackFrame> {
+    override fun serialize(src: SentryStackFrame?, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement {
+        if (context == null) {
+            throw Exception("Internal error. Serializer called without a context")
+        }
+        val jsonObj = JsonObject()
+        if (src != null) {
+            jsonObj.let {
+                it.add("filename", context.serialize(src.filename))
+                it.add("function", context.serialize(src.function))
+                it.add("module", context.serialize(src.module))
+                it.add("lineno", context.serialize(src.lineno))
+                it.add("colno", context.serialize(src.colno))
+                it.add("abs_path", context.serialize(src.absolutePath))
+                it.add("context_line", context.serialize(src.contextLine))
+                it.add("in_app", context.serialize(src.inApp))
+                it.add("package", context.serialize(src.`package`))
+                it.add("platform", context.serialize(src.platform))
+                it.add("image_addr", context.serialize(src.imageAddress))
+                it.add("symbol_addr", context.serialize(src.symbolAddress))
+                it.add("instruction_offset", context.serialize(src.instructionOffset))
+
+                if (src.preContext?.isNotEmpty() == true) {
+                    it.add("pre_context", context.serialize(src.preContext))
+                }
+                if (src.postContext?.isNotEmpty() == true) {
+                    it.add("post_context", context.serialize(src.postContext))
+                }
+                if (src.framesOmitted?.isNotEmpty() == true) {
+                    it.add("frames_omitted", context.serialize(src.framesOmitted))
+                }
+                if (src.vars?.isNotEmpty() == true) {
+                    it.add("vars", context.serialize(src.vars))
+                }
             }
         }
         return jsonObj

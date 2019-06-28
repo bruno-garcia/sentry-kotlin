@@ -15,6 +15,7 @@ data class SentryStacktrace constructor(val frames: MutableList<SentryStackFrame
 class SentryStackFrame {
     var filename: String? = null
     var function: String? = null
+    var platform: String? = null
     var module: String? = null
     var lineno: Int? = null
     var colno: Int? = null
