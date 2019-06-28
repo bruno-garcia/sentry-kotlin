@@ -3,12 +3,14 @@ package io.sentry
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
 
-interface SentryHub : SentryClient
+interface SentryHub : SentryClient{
+    fun addBreadcrumb(breadcrumb: Breadcrumb)
+}
 
 // TODO RaduW at the moment this is not thread safe, need to look at Kotlin concurrency primitives
 class DefaultSentryHub constructor(private val client: SentryClient) : SentryHub {
 
-    private val scopeStack = mutableListOf<SentryScope>()
+    private val scopeStack = mutableListOf<SentryScope>( SentryScope())
 
     override fun close() = client.close()
     override fun captureEvent(event: SentryEvent): String {
@@ -41,17 +43,10 @@ class DefaultSentryHub constructor(private val client: SentryClient) : SentryHub
         // enhance event with scope data
         return event
     }
+
+    override fun addBreadcrumb(breadcrumb: Breadcrumb){
+        val scope = scopeStack.last()
+        scope.breakcrumbs.add(breadcrumb)
+    }
 }
 
-suspend fun withSentryScope(block: CoroutineScope.() -> Unit) {
-    val hubWrapper = ThreadLocal<SentryHub?>()
-    var hub = hubWrapper.get()
-    if (hub == null) {
-        // no hub in this context create one
-        hub = DefaultSentryHub(Sentry.sentryClient)
-        hubWrapper.set(hub)
-    }
-    coroutineScope {
-        block()
-    }
-}
