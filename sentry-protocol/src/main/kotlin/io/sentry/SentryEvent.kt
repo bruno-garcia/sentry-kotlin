@@ -1,7 +1,10 @@
 package io.sentry
+import java.sql.Timestamp
 import java.time.Instant
 import java.time.format.DateTimeFormatter
 import java.util.UUID
+
+data class BreadCrumb(val name: String , val timestamp: Timestamp)
 
 open class SentryEvent {
     internal val eventUuid: UUID
@@ -15,6 +18,7 @@ open class SentryEvent {
     // Scope data
     var tags: MutableMap<String, String> = mutableMapOf()
     var extra: MutableMap<String, Any> = mutableMapOf()
+    var breadCrumb: MutableList<BreadCrumb> = mutableListOf()
     var fingerprint: MutableList<String>? = null
     var request: SentryRequest? = null
     var context: SentryContext? = null
