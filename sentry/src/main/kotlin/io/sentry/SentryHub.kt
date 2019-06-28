@@ -1,6 +1,5 @@
 package io.sentry
 
-
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
 

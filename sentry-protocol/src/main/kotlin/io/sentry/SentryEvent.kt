@@ -4,9 +4,10 @@ import java.time.Instant
 import java.time.format.DateTimeFormatter
 import java.util.UUID
 
-data class BreadCrumb(val name: String , val timestamp: Timestamp)
-
 open class SentryEvent {
+    // TODO: make internals visible to 'sentry' and mark this internal
+    var throwable: Throwable? = null
+
     internal val eventUuid: UUID
     internal val eventInstant: Instant
 
